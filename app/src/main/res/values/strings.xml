@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">BN</string>
+    <string name="app_name_full">BeaytyNote</string>
+    <string name="skip">Skip</string>
+    <string name="book">Book</string>
+    <string name="any_service">Any Service</string>
+    <string name="onboarding1_text">You can find any service here and make booking in a minute</string>
+    <string name="visit">Visit</string>
+    <string name="select_service">Selected Service</string>
+    <string name="onboarding2_text">Get notifications about booked services and visit it</string>
+    <string name="pay">Pay</string>
+    <string name="inside_app">Inside app</string>
+    <string name="onboarding3_text">Pay for visited service fast and easy inside BeautyNote</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
