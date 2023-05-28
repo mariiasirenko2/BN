@@ -26,7 +26,13 @@ jobs:
         run: ./gradlew assembleRelease
 
       - name: Rename APK
-        run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/BN-$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER.apk
+        run: |
+          if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
+            mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/BN-$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER.apk
+          else
+            echo "APK file not found!"
+            exit 1
+          fi
 
       - name: Archive APK
         uses: actions/upload-artifact@v2
