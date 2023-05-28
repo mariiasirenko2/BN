@@ -1,6 +1,6 @@
 name: Build and Deploy APK
 on:
-  push:
+  pull_request:
     branches:
       - main
 
