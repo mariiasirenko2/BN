@@ -31,7 +31,7 @@ jobs:
       - name: Rename APK
         run: |
           if [ -f "app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
-            mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/BN-$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER.apk
+            mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/BN-$GITHUB_RUN_NUMBER.apk
           else
             echo "APK file not found!"
             exit 1
@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: app/build/outputs/apk/release/BN-$GITHUB_REF_NAME-$GITHUB_RUN_NUMBER.apk
+          path: app/build/outputs/apk/release/BN-$GITHUB_RUN_NUMBER.apk
