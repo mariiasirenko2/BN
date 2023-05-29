@@ -17,5 +17,6 @@
     <string name="login">Login</string>
     <string name="forget_pass">Forget Password</string>
     <string name="signup">Sign Up</string>
+    <string name="search_text">Search</string>
 
 </resources>

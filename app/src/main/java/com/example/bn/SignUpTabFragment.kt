@@ -1,5 +1,6 @@
 package com.example.bn
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ class SignUpTabFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val root = inflater.inflate(R.layout.sign_up_tab_fragment, container, false) as ViewGroup
         email = root.findViewById(R.id.email)
@@ -36,6 +37,8 @@ class SignUpTabFragment : Fragment() {
 
         singUpButton.setOnClickListener {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            startActivity(intent)
         }
         return root
     }

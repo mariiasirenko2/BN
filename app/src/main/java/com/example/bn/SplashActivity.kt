@@ -18,6 +18,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var lottieAnimationView: LottieAnimationView
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
+
     companion object {
         private const val NUM_PAGES = 3
     }
