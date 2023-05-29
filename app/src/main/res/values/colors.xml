@@ -2,9 +2,12 @@
 <resources>
     <color name="purple">#9D88FF</color>
     <color name="pink">#F065A7</color>
+    <color name="pale_pink">#FFB8DA</color>
     <color name="yellow">#FFC642</color>
     <color name="dark_blue">#121C55</color>
     <color name="gold_yellow">#FFB810</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#989898</color>
+
 </resources>
