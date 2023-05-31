@@ -1,9 +1,8 @@
 package com.example.bn
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -31,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Signup"))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
-        val adapter = LoginAdapter(supportFragmentManager, this, tabLayout.tabCount)
+        val adapter = LoginAdapter(supportFragmentManager, tabLayout.tabCount)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))

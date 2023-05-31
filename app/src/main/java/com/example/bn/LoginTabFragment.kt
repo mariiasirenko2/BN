@@ -1,5 +1,6 @@
 package com.example.bn
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
+import com.example.bn.R
 
 class LoginTabFragment : Fragment() {
     private lateinit var email: EditText
@@ -22,7 +23,7 @@ class LoginTabFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val root = inflater.inflate(R.layout.login_tab_fragment, container, false) as ViewGroup
         email = root.findViewById(R.id.email)
@@ -42,11 +43,14 @@ class LoginTabFragment : Fragment() {
 
         email.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(300).start()
         pass.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(500).start()
-        forgetPassword.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(500).start()
+        forgetPassword.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(500)
+            .start()
         loginButton.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(700).start()
 
         loginButton.setOnClickListener {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            startActivity(intent)
         }
 
         return root

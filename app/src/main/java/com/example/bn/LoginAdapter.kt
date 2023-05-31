@@ -1,11 +1,10 @@
 package com.example.bn
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class LoginAdapter(fm: FragmentManager, private val context: Context, private val totalTabs: Int) :
+class LoginAdapter(fm: FragmentManager, private val totalTabs: Int) :
     FragmentPagerAdapter(fm) {
 
     override fun getCount(): Int {
@@ -20,7 +19,7 @@ class LoginAdapter(fm: FragmentManager, private val context: Context, private va
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return when (position) {
             0 -> "Login"
             1 -> "Sign Up"
