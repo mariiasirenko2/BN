@@ -9,5 +9,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#989898</color>
+    <color name="available">#00ACC1</color>
+    <color name="pending">#FFB300</color>
+    <color name="booked">#7CB342</color>
+    <color name="skipped">#D86D4C</color>
+    <color name="attended">#757575</color>
+    <color name="canceled">#FF1212</color>
 
 </resources>

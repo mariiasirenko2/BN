@@ -2,55 +2,60 @@ package com.example.bn
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.time.LocalDate
+import java.time.LocalDateTime
 
-class HomeFragment : Fragment() {
+class ProfileActivity : AppCompatActivity() {
+    private lateinit var servicePreviewList: ArrayList<ServicePreview>
+    private lateinit var recyclerViewService: RecyclerView
+    private lateinit var servicePreviewAdapter: ServicePreviewAdapter
+
     private lateinit var recyclerViewMaster: RecyclerView
     private lateinit var masterList: ArrayList<Master>
     private lateinit var masterAdapter: MasterAdapter
 
-    private lateinit var recyclerViewService: RecyclerView
-    private lateinit var servicePreviewList: ArrayList<ServicePreview>
-    private lateinit var servicePreviewAdapter: ServicePreviewAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_profile)
 
-        initMaster(root)
-        initServicePreview(root)
-        return root
+        val flag = intent.getIntExtra("profile", -1)
+
+        if (flag == 0)
+            initServicePreview()
+        if (flag == 1)
+            initMaster()
+
+
+        val floatingButton: FloatingActionButton = findViewById(R.id.floatingActionButton)
+        floatingButton.setOnClickListener {
+            onBackPressed()
+        }
+
     }
 
-    private fun initMaster(root: View) {
-        recyclerViewMaster = root.findViewById(R.id.avatar_list)
+    private fun initMaster() {
+        recyclerViewMaster = findViewById(R.id.recyclerView)
         recyclerViewMaster.setHasFixedSize(true)
         recyclerViewMaster.layoutManager =
-            LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
-
-        val snapHelper: SnapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerViewMaster)
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         masterList = ArrayList()
         addMasterDataToList()
         masterAdapter = MasterAdapter(masterList)
         recyclerViewMaster.adapter = masterAdapter
 
-        masterAdapter.onItemClick={
-            val intent = Intent(requireContext(),ProfileActivity::class.java)
-            intent.putExtra("profile", 0)
+
+        masterAdapter.onItemClick = {
+            val intent = Intent(this, SlotActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     private fun addMasterDataToList() {
@@ -62,11 +67,11 @@ class HomeFragment : Fragment() {
         masterList.add(Master(6, "Cardamon", R.drawable.male_1))
     }
 
-    private fun initServicePreview(root: View) {
-        recyclerViewService = root.findViewById(R.id.service_list)
+    private fun initServicePreview() {
+        recyclerViewService = findViewById(R.id.recyclerView)
         recyclerViewService.setHasFixedSize(true)
         recyclerViewService.layoutManager =
-            LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerViewService)
@@ -76,9 +81,8 @@ class HomeFragment : Fragment() {
         servicePreviewAdapter = ServicePreviewAdapter(servicePreviewList)
         recyclerViewService.adapter = servicePreviewAdapter
 
-        servicePreviewAdapter.onItemClick={
-            val intent = Intent(requireContext(),ProfileActivity::class.java)
-            intent.putExtra("profile", 1)
+        servicePreviewAdapter.onItemClick = {
+            val intent = Intent(this, SlotActivity::class.java)
             startActivity(intent)
         }
     }
@@ -90,4 +94,5 @@ class HomeFragment : Fragment() {
         servicePreviewList.add(ServicePreview(4, "Makeup", R.drawable.makeup))
 
     }
+
 }

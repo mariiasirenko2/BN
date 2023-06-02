@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ServicePreviewAdapter(private val servicePreviewList: List<ServicePreview>) :
     RecyclerView.Adapter<ServicePreviewAdapter.ServicePreviewViewHolder>() {
+    var onItemClick: ((ServicePreview) -> Unit)? = null
+
     class ServicePreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val serviceImageView: LinearLayout = itemView.findViewById(R.id.service_card_bg)
         val serviceName: TextView = itemView.findViewById(R.id.name)
@@ -28,6 +30,9 @@ class ServicePreviewAdapter(private val servicePreviewList: List<ServicePreview>
         val servicePreview = servicePreviewList[position]
         holder.serviceImageView.setBackgroundResource(servicePreview.serviceImage)
         holder.serviceName.text = servicePreview.serviceName
+        holder.itemView.setOnClickListener {
+            onItemClick?.invoke(servicePreview)
+        }
     }
 
 }
