@@ -37,8 +37,6 @@ At this point you can easily:
   - choose best time to visit a master
   - enable push notifications, so you will be informed when master approved the booking
 
-### Not released features (yet)
-
 In the nearest future you will be able to:
 - pay for the services online as client
 - leave a feedback for attended services as client
