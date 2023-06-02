@@ -14,6 +14,23 @@ Looking ahead, Beauty Note has plans to introduce a marketplace where masters ca
 
 In summary, Beauty Note is a user-friendly app that simplifies interactions between beauty masters and their clients. It provides a unified platform for booking, payment, reviews, communication, and even shopping, all tailored to enhance the beauty experience for everyone involved.
 
+### Technology stack
+
+Android application:
+
+
+Used REST web service (self-written):
+- Java
+- Spring
+  - Boot
+  - Data
+    - Hibernate
+    - PostgreSQL
+  - Security
+    - OAuth2
+  - Web
+- Facebook API
+
 ## Showcase 
 
 Here is a demo showcase of the beta version of the project:
