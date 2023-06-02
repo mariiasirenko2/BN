@@ -44,6 +44,7 @@ class SignUpTabFragment : Fragment() {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             val intent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(intent)
+
         }
         return root
     }

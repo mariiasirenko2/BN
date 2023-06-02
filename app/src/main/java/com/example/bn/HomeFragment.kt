@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-
+        
         initMaster(root)
         initServicePreview(root)
         return root
@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
     private fun initServicePreview(root: View) {
         recyclerViewService = root.findViewById(R.id.service_list)
         recyclerViewService.setHasFixedSize(true)
+
         recyclerViewService.layoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
@@ -81,6 +82,7 @@ class HomeFragment : Fragment() {
             intent.putExtra("profile", 1)
             startActivity(intent)
         }
+
     }
 
     private fun addServicePreviewDataToList() {

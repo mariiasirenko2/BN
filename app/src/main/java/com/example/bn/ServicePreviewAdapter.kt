@@ -33,6 +33,7 @@ class ServicePreviewAdapter(private val servicePreviewList: List<ServicePreview>
         holder.itemView.setOnClickListener {
             onItemClick?.invoke(servicePreview)
         }
+
     }
 
 }

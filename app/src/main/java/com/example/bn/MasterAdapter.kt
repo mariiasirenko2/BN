@@ -19,6 +19,7 @@ class MasterAdapter(private val masterList: List<Master>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MasterViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.avatar_card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.avatar_card,parent,false)
         return MasterViewHolder(view)
     }
 
@@ -34,6 +35,7 @@ class MasterAdapter(private val masterList: List<Master>) :
         holder.itemView.setOnClickListener {
             onItemClick?.invoke(master)
         }
+
     }
 
 }
