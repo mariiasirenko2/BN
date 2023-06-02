@@ -19,3 +19,28 @@ In summary, Beauty Note is a user-friendly app that simplifies interactions betw
 Here is a demo showcase of the beta version of the project:
 
 
+## Available features
+
+At this point you can easily:
+- register via Facebook account
+- be master:
+  - create your own service propositions
+  - choose services of which beauty groups you want to offer
+  - define costs, average time, description of each service
+  - create time slots when you want clients to visit you
+  - apply clients booking requests
+  - enable push notifications, so you will be informed when new client appears
+- be client:
+  - search for type of service you want
+  - search for type of masters you want
+  - search for certain service of certain masters you prefer
+  - choose best time to visit a master
+  - enable push notifications, so you will be informed when master approved the booking
+
+### Not released features (yet)
+
+In the nearest future you will be able to:
+- pay for the services online as client
+- leave a feedback for attended services as client
+- set up autoconfiguration of slots creation process as master
+- message with masters or clients
