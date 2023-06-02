@@ -1,41 +1,46 @@
 package com.example.bn
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDateTime
 
+class SlotActivity : AppCompatActivity() {
 
-class CalendarFragment : Fragment() {
     private lateinit var recyclerViewSlot: RecyclerView
     private lateinit var slotList: ArrayList<SlotData>
     private lateinit var slotDataAdapter: SlotAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_calendar, container, false)
-        initSlotPreview(root)
-        return root
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_profile)
+
+        initSlotPreview()
+
+        val floatingButton: FloatingActionButton = findViewById(R.id.floatingActionButton)
+        floatingButton.setOnClickListener {
+            onBackPressed()
+        }
 
     }
 
-    private fun initSlotPreview(root: View) {
-        recyclerViewSlot = root.findViewById(R.id.recyclerView)
+
+    private fun initSlotPreview() {
+        recyclerViewSlot = findViewById(R.id.recyclerView)
         recyclerViewSlot.setHasFixedSize(true)
         recyclerViewSlot.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         slotList = ArrayList()
         addSlotDataToList()
         slotDataAdapter = SlotAdapter(slotList)
         recyclerViewSlot.adapter = slotDataAdapter
+
     }
 
     private fun addSlotDataToList() {

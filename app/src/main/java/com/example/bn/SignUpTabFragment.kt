@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 class SignUpTabFragment : Fragment() {
-    private lateinit var email: EditText
-    private lateinit var singUpButton: Button
+    private lateinit var master: Button
+    private lateinit var client: Button
     private var message = "BeautyNote App 1.0 support login only via Facebook"
 
 
@@ -22,23 +22,29 @@ class SignUpTabFragment : Fragment() {
     ): View {
 
         val root = inflater.inflate(R.layout.sign_up_tab_fragment, container, false) as ViewGroup
-        email = root.findViewById(R.id.email)
-        singUpButton = root.findViewById(R.id.button)
+        master = root.findViewById(R.id.master)
+        client = root.findViewById(R.id.client)
 
-        email.translationX = 800f
-        singUpButton.translationX = 800f
+        master.translationX = 800f
+        client.translationX = 800f
 
-        email.alpha = 0f
-        singUpButton.alpha = 0f
+        master.alpha = 0f
+        client.alpha = 0f
 
-        email.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(300).start()
-        singUpButton.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(700)
+        master.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(300).start()
+        client.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(700)
             .start()
 
-        singUpButton.setOnClickListener {
+        master.setOnClickListener {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             val intent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(intent)
+        }
+        client.setOnClickListener {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            startActivity(intent)
+
         }
         return root
     }

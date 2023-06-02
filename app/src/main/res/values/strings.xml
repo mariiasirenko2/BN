@@ -18,6 +18,8 @@
     <string name="forget_pass">Forget Password</string>
     <string name="signup">Sign Up</string>
     <string name="search_text">Search</string>
+    <string name="master">Master</string>
+    <string name="client">Client</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
