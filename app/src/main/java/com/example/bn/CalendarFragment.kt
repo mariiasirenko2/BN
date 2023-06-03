@@ -1,13 +1,23 @@
 package com.example.bn
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.time.LocalDateTime
+import com.example.bn.api.SessionManager
+import com.example.bn.dto.SlotsMapDto
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,8 +31,11 @@ private const val ARG_PARAM2 = "param2"
  */
 class CalendarFragment : Fragment() {
     private lateinit var recyclerViewSlot: RecyclerView
-    private lateinit var slotList: ArrayList<SlotData>
-    private lateinit var slotDataAdapter: SlotAdapter
+    private lateinit var slotMasterAdapter: SlotMasterPersonalAdapter
+    private lateinit var slotClientAdapter: SlotClientAdapter
+
+    private val sessionManager = SessionManager.getInstance()
+    private var slotClient: SlotsMapDto = SlotsMapDto()
 
 
     override fun onCreateView(
@@ -30,7 +43,36 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_calendar, container, false)
+        val addSlotButton  = root.findViewById<FloatingActionButton>(R.id.addSlot)
+
+//        if (sessionManager.getUser().role== "MASTER") {
+//                addSlotButton.visibility = View.VISIBLE
+//            } else {
+//                addSlotButton.visibility = View.GONE
+//            }
+
+        var selectedDate: LocalDate? = null
+        var selectedTime: LocalTime? = null
+        addSlotButton.setOnClickListener{
+            val datePicker = DatePickerDialog(requireContext())
+            datePicker.setOnDateSetListener { _, year, month, dayOfMonth ->
+                selectedDate = LocalDate.of(year, month + 1, dayOfMonth)
+
+                val timePicker = TimePickerDialog(requireContext(), { _, hourOfDay, minute ->
+                    selectedTime = LocalTime.of(hourOfDay, minute)
+
+                    val selectedDateTime = ZonedDateTime.of(selectedDate, selectedTime, ZoneId.systemDefault())
+
+                    val toastText = "Выбранная дата и время: $selectedDateTime"
+                    Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
+                }, 0, 0, false)
+
+                timePicker.show()
+            }
+            datePicker.show()
+        }
         initSlotPreview(root)
+
         return root
 
     }
@@ -41,21 +83,35 @@ class CalendarFragment : Fragment() {
         recyclerViewSlot.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        slotList = ArrayList()
-        addSlotDataToList()
-        slotDataAdapter = SlotAdapter(slotList)
-        recyclerViewSlot.adapter = slotDataAdapter
+        sessionManager.getCoroutineScope().launch {
+            performGetMySlots()
+
+            if (sessionManager.getUser().role == "CLIENT") {
+                slotClientAdapter = SlotClientAdapter(slotClient)
+                recyclerViewSlot.adapter = slotClientAdapter
+            } else {
+                slotMasterAdapter = SlotMasterPersonalAdapter(slotClient)
+                recyclerViewSlot.adapter = slotMasterAdapter
+            }
+        }
+
     }
 
-    private fun addSlotDataToList() {
-        slotList.add(SlotData(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.AVAILABLE))
-        slotList.add(SlotData(2, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.PENDING))
-        slotList.add(SlotData(3, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.BOOKED))
-        slotList.add(SlotData(4, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.SKIPPED))
-        slotList.add(SlotData(5, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.ATTENDED))
-        slotList.add(SlotData(5, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.CANCELED))
-
-
+    private suspend fun performGetMySlots() {
+        try {
+            val response = sessionManager.getUserApi().getAllMySlots(sessionManager.getToken())
+            if (response.isSuccessful) {
+                slotClient = response.body() as SlotsMapDto
+                Toast.makeText(requireContext(), "GotMasterService", Toast.LENGTH_SHORT).show()
+            } else {
+                val errorBody = response.errorBody()?.string()
+                println("Error: $errorBody")
+                Toast.makeText(requireContext(), "Error: $errorBody", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            println("Error: ${e.message}")
+            Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

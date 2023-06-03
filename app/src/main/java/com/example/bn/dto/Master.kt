@@ -1,4 +1,4 @@
-package com.example.bn
+package com.example.bn.dto
 
 import android.widget.ImageView
 

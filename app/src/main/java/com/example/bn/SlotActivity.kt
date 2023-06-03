@@ -1,20 +1,21 @@
 package com.example.bn
 
-import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SnapHelper
+import com.example.bn.api.SessionManager
+import com.example.bn.dto.PublicSlotsMapDto
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.time.LocalDateTime
+import kotlinx.coroutines.launch
 
 class SlotActivity : AppCompatActivity() {
 
     private lateinit var recyclerViewSlot: RecyclerView
-    private lateinit var slotList: ArrayList<SlotData>
-    private lateinit var slotDataAdapter: SlotAdapter
+    private lateinit var slotDataAdapter: SlotMasterAdapter
+    private var slotMap: PublicSlotsMapDto = PublicSlotsMapDto()
+    private val sessionManager = SessionManager.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,29 +29,34 @@ class SlotActivity : AppCompatActivity() {
         }
 
     }
-
-
     private fun initSlotPreview() {
         recyclerViewSlot = findViewById(R.id.recyclerView)
         recyclerViewSlot.setHasFixedSize(true)
         recyclerViewSlot.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        slotList = ArrayList()
-        addSlotDataToList()
-        slotDataAdapter = SlotAdapter(slotList)
-        recyclerViewSlot.adapter = slotDataAdapter
+        sessionManager.getCoroutineScope().launch {
+            performGetMasterSlots()
+            slotDataAdapter = SlotMasterAdapter(slotMap)
+            recyclerViewSlot.adapter = slotDataAdapter
+
+        }
 
     }
+    private suspend fun performGetMasterSlots() {
+        try {
+            val response = sessionManager.getUserApi().getSlotsForRange(sessionManager.getToken())
+            if (response.isSuccessful) {
+                 slotMap = response.body()!!
+                Toast.makeText(this, "GotMasterService", Toast.LENGTH_SHORT).show()
+            } else {
+                val errorBody = response.errorBody()?.string()
+                println("Error: $errorBody")
+                Toast.makeText(this, "Error: $errorBody", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            println("Error: ${e.message}")
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }}
 
-    private fun addSlotDataToList() {
-        slotList.add(SlotData(1, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.AVAILABLE))
-        slotList.add(SlotData(2, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.PENDING))
-        slotList.add(SlotData(3, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.BOOKED))
-        slotList.add(SlotData(4, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.SKIPPED))
-        slotList.add(SlotData(5, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.ATTENDED))
-        slotList.add(SlotData(5, 1, 1, LocalDateTime.now(), LocalDateTime.now(), Status.CANCELED))
-
-
-    }
 }

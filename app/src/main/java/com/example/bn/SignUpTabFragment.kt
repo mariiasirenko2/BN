@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.bn.api.ApiInterface
+import com.example.bn.api.ApiUtils
+import com.example.bn.api.SessionManager
+import kotlinx.coroutines.launch
 
 class SignUpTabFragment : Fragment() {
     private lateinit var master: Button
     private lateinit var client: Button
-    private var message = "BeautyNote App 1.0 support login only via Facebook"
-
+    private val sessionManager = SessionManager.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,16 +37,44 @@ class SignUpTabFragment : Fragment() {
         client.animate().translationX(0f).alpha(1f).setDuration(800).setStartDelay(700)
             .start()
 
+        val registrationRequest = RegistrationRequestDto()
+          registrationRequest.name =sessionManager.getUser().name
+          registrationRequest.surname = sessionManager.getUser().surname
+          registrationRequest.phoneNumber = "123456789"
+          registrationRequest.country = sessionManager.getUser().country
+          registrationRequest.region =sessionManager.getUser().region
+          registrationRequest.city = sessionManager.getUser().city
+
         master.setOnClickListener {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            startActivity(intent)
+            registrationRequest.role ="MASTER"
+            Toast.makeText(requireContext(), "MASTER role granted", Toast.LENGTH_SHORT).show()
+
+            sessionManager.getCoroutineScope().launch {
+                performSetMe(sessionManager.getToken(),registrationRequest)
+            }
         }
         client.setOnClickListener {
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            startActivity(intent)
+            registrationRequest.role ="CLIENT"
+            Toast.makeText(requireContext(), "CLIENT role granted", Toast.LENGTH_SHORT).show()
+
+            sessionManager.getCoroutineScope().launch {
+                performSetMe(sessionManager.getToken(),registrationRequest)
+            }
         }
         return root
     }
+    private suspend fun performSetMe(token: String, user:RegistrationRequestDto) {
+        try {
+            val response = sessionManager.getUserApi().setRole(user,token)
+            if (response.isSuccessful) {
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(requireContext(), "Grant", Toast.LENGTH_SHORT).show()
+            } else {
+                val errorBody = response.errorBody()?.string()
+                Toast.makeText(requireContext(), "Error: $errorBody", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }}
 }
