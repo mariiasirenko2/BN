@@ -17,9 +17,11 @@ In summary, Beauty Note is a user-friendly app that simplifies interactions betw
 ### Technology stack
 
 Android application:
+- Kotlin
+- Retrofit
+- Facebook SDK
 
-
-Used REST web service (self-written):
+[Used REST web service (self-written)](https://github.com/GrEFeRFeeD/beauty-note-api):
 - Java
 - Spring
   - Boot
@@ -33,8 +35,15 @@ Used REST web service (self-written):
 
 ## Showcase 
 
-Here is a demo showcase of the beta version of the project:
+Here you can find the demo showcases of the beta version of the project.
 
+### Client Showcase
+
+[![Watch the video](https://img.youtube.com/vi/IkfH04roa_M/maxresdefault.jpg)](https://youtu.be/IkfH04roa_M)
+
+### Master Showcase
+
+[![Watch the video](https://img.youtube.com/vi/qyTmFxwE0NI/maxresdefault.jpg)](https://youtu.be/qyTmFxwE0NI)
 
 ## Available features
 
