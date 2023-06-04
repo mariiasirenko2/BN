@@ -30,7 +30,7 @@ class ProfileActivity : AppCompatActivity() {
         if (flag == 0)
             initServicePreview(cardId)
         if (flag == 1)
-            Toast.makeText(this, "TBD in BeautyNote 1.1", Toast.LENGTH_SHORT).show(
+            Toast.makeText(this, "TBD in BeautyNote 1.1", Toast.LENGTH_SHORT).show()
 
 
         val floatingButton: FloatingActionButton = findViewById(R.id.floatingActionButton)
