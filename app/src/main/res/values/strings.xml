@@ -22,5 +22,9 @@
     <string name="client">Client</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">798691565181740</string>
+    <string name="fb_login_protocol_scheme">fb6798691565181740</string>
+    <string name="facebook_client_token">56789</string>
+
 
 </resources>

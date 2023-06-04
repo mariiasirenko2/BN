@@ -2,35 +2,35 @@ package com.example.bn
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.example.bn.api.SessionManager
+import com.example.bn.dto.MasterServiceArrayDto
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.time.LocalDate
-import java.time.LocalDateTime
+import kotlinx.coroutines.launch
 
 class ProfileActivity : AppCompatActivity() {
-    private lateinit var servicePreviewList: ArrayList<ServicePreview>
+    private var masterServiceList: MasterServiceArrayDto = MasterServiceArrayDto()
     private lateinit var recyclerViewService: RecyclerView
-    private lateinit var servicePreviewAdapter: ServicePreviewAdapter
+    private lateinit var masterServiceAdapter: MasterServiceAdapter
 
-    private lateinit var recyclerViewMaster: RecyclerView
-    private lateinit var masterList: ArrayList<Master>
-    private lateinit var masterAdapter: MasterAdapter
-
+    private val sessionManager = SessionManager.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
         val flag = intent.getIntExtra("profile", -1)
+        val cardId = intent.getLongExtra("cardId", 0)
 
         if (flag == 0)
-            initServicePreview()
+            initServicePreview(cardId)
         if (flag == 1)
-            initMaster()
+            Toast.makeText(this, "TBD in BeautyNote 1.1", Toast.LENGTH_SHORT).show(
 
 
         val floatingButton: FloatingActionButton = findViewById(R.id.floatingActionButton)
@@ -40,34 +40,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun initMaster() {
-        recyclerViewMaster = findViewById(R.id.recyclerView)
-        recyclerViewMaster.setHasFixedSize(true)
-        recyclerViewMaster.layoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-
-        masterList = ArrayList()
-        addMasterDataToList()
-        masterAdapter = MasterAdapter(masterList)
-        recyclerViewMaster.adapter = masterAdapter
-
-
-        masterAdapter.onItemClick = {
-            val intent = Intent(this, SlotActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    private fun addMasterDataToList() {
-        masterList.add(Master(1, "Vanilla", R.drawable.woman_1))
-        masterList.add(Master(2, "Cinnamon", R.drawable.woman_2))
-        masterList.add(Master(3, "Cake", R.drawable.woman_3))
-        masterList.add(Master(4, "Lawanda", R.drawable.woman_4))
-        masterList.add(Master(5, "Cherry", R.drawable.woman_5))
-        masterList.add(Master(6, "Cardamon", R.drawable.male_1))
-    }
-
-    private fun initServicePreview() {
+    private fun initServicePreview(cardId: Long) {
         recyclerViewService = findViewById(R.id.recyclerView)
         recyclerViewService.setHasFixedSize(true)
         recyclerViewService.layoutManager =
@@ -76,23 +49,32 @@ class ProfileActivity : AppCompatActivity() {
         val snapHelper: SnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(recyclerViewService)
 
-        servicePreviewList = ArrayList()
-        addServicePreviewDataToList()
-        servicePreviewAdapter = ServicePreviewAdapter(servicePreviewList)
-        recyclerViewService.adapter = servicePreviewAdapter
+        sessionManager.getCoroutineScope().launch {
+            performGetAllMasterServices(cardId)
+            masterServiceAdapter = MasterServiceAdapter(masterServiceList)
+            recyclerViewService.adapter = masterServiceAdapter
 
-        servicePreviewAdapter.onItemClick = {
-            val intent = Intent(this, SlotActivity::class.java)
-            startActivity(intent)
+            masterServiceAdapter.onItemClick={
+                val intent = Intent(this@ProfileActivity,SlotActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
-    private fun addServicePreviewDataToList() {
-        servicePreviewList.add(ServicePreview(1, "Manicure", R.drawable.manicure))
-        servicePreviewList.add(ServicePreview(2, "Haircut", R.drawable.haircut))
-        servicePreviewList.add(ServicePreview(3, "Massage", R.drawable.masage))
-        servicePreviewList.add(ServicePreview(4, "Makeup", R.drawable.makeup))
-
-    }
-
+    private suspend fun performGetAllMasterServices(masterId: Long) {
+        try {
+            val response = sessionManager.getUserApi().getMasterServicesByMasterId(sessionManager.getToken(),
+                masterId)
+            if (response.isSuccessful) {
+                masterServiceList = response.body()!!
+                Toast.makeText(this, "GotMasterService", Toast.LENGTH_SHORT).show()
+            } else {
+                val errorBody = response.errorBody()?.string()
+                println("Error: $errorBody")
+                Toast.makeText(this, "Error: $errorBody", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            println("Error: ${e.message}")
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }}
 }
