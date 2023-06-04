@@ -39,11 +39,11 @@ Here you can find the demo showcases of the beta version of the project.
 
 ### Client Showcase
 
-[![Watch the video](https://img.youtube.com/vi/IkfH04roa_M/maxresdefault.jpg)](https://youtu.be/IkfH04roa_M)
+https://github.com/mariiasirenko2/BN/assets/66921192/5ae7eb71-10c9-4ce0-be68-d02166794f89
 
 ### Master Showcase
 
-[![Watch the video](https://img.youtube.com/vi/qyTmFxwE0NI/maxresdefault.jpg)](https://youtu.be/qyTmFxwE0NI)
+https://github.com/mariiasirenko2/BN/assets/66921192/f7e3286f-764d-49d1-999b-3583cc3495fa
 
 ## Available features
 
