@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiUtils {
-    private const val BASE_URL = "https://beauty-note-api.onrender.com"
+    private const val BASE_URL = "http://192.168.1.25:8080/"
 
     fun getInstance(): Retrofit {
         return Retrofit.Builder()

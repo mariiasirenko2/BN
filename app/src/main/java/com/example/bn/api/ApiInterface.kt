@@ -1,9 +1,12 @@
 package com.example.bn.api
 
 import com.example.bn.RegistrationRequestDto
+import com.example.bn.dto.BookingRequestDto
 import com.example.bn.dto.ClientProfile
+import com.example.bn.dto.EditSlotRequestBody
 import com.example.bn.dto.MasterArrayDto
 import com.example.bn.dto.MasterServiceArrayDto
+import com.example.bn.dto.PublicSlotDto
 import com.example.bn.dto.PublicSlotsMapDto
 import com.example.bn.dto.ServiceListDto
 import com.example.bn.dto.SlotDto
@@ -15,6 +18,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -71,7 +75,21 @@ interface ApiInterface {
 
     @POST("/me/slots")
     suspend fun addNewSlot(
-        @Body slotRequestDto: SlotRequestDto,
+        @Header("Authorization") token: String,
+        @Body slotRequestDto: SlotRequestDto
+    ): Response<SlotDto>
+
+    @PATCH("/me/slots/{slotId}")
+    suspend fun editSlot(
+        @Path("slotId") slotId: Long,
+        @Body editSlotRequestBody: EditSlotRequestBody,
         @Header("Authorization") token: String
     ): Response<SlotDto>
+
+    @PATCH("/masters/slots/{slotId}")
+    suspend fun sendBookingRequest(
+        @Path("slotId") slotId: Long,
+        @Body bookingRequestDto: BookingRequestDto,
+        @Header("Authorization") token: String
+    ): Response<PublicSlotDto>
 }

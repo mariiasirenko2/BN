@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.bn.api.ApiInterface
-import com.example.bn.api.ApiUtils
 import com.example.bn.api.SessionManager
 import kotlinx.coroutines.launch
 
@@ -44,6 +42,8 @@ class SignUpTabFragment : Fragment() {
           registrationRequest.country = sessionManager.getUser().country
           registrationRequest.region =sessionManager.getUser().region
           registrationRequest.city = sessionManager.getUser().city
+          registrationRequest.role ="MASTER"
+
 
         master.setOnClickListener {
             registrationRequest.role ="MASTER"

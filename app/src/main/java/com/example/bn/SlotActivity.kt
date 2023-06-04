@@ -45,9 +45,11 @@ class SlotActivity : AppCompatActivity() {
     }
     private suspend fun performGetMasterSlots() {
         try {
+
             val response = sessionManager.getUserApi().getSlotsForRange(sessionManager.getToken())
             if (response.isSuccessful) {
                  slotMap = response.body()!!
+
                 Toast.makeText(this, "GotMasterService", Toast.LENGTH_SHORT).show()
             } else {
                 val errorBody = response.errorBody()?.string()
