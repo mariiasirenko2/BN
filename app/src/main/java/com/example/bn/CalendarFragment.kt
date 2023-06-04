@@ -40,7 +40,6 @@ class CalendarFragment : Fragment() {
     private val sessionManager = SessionManager.getInstance()
     private var slotClient: SlotsMapDto = SlotsMapDto()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,7 +110,6 @@ class CalendarFragment : Fragment() {
 
 
         initSlotPreview(root)
-
         return root
 
     }

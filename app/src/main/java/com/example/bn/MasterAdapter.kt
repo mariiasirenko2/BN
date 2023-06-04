@@ -41,6 +41,7 @@ class MasterAdapter(private val masterList: MasterArrayDto) :
         holder.itemView.setOnClickListener {
             onItemClick?.invoke(master.id)
         }
+
     }
 
 }

@@ -38,7 +38,6 @@ class HomeFragment : Fragment() {
     private lateinit var servicePreviewAdapter: ServicePreviewAdapter
     private val sessionManager = SessionManager.getInstance()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,7 +51,6 @@ class HomeFragment : Fragment() {
         val imageBytes = Base64.decode(sessionManager.getUser().image, Base64.DEFAULT)
         val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         profilePhoto.setImageBitmap(bitmap)
-
 
         initMaster(root)
         initServicePreview(root)

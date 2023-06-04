@@ -10,12 +10,14 @@ import com.example.bn.dto.PublicSlotsMapDto
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
+
 class SlotActivity : AppCompatActivity() {
 
     private lateinit var recyclerViewSlot: RecyclerView
     private lateinit var slotDataAdapter: SlotMasterAdapter
     private var slotMap: PublicSlotsMapDto = PublicSlotsMapDto()
     private val sessionManager = SessionManager.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,7 @@ class SlotActivity : AppCompatActivity() {
         }
 
     }
+
     private fun initSlotPreview() {
         recyclerViewSlot = findViewById(R.id.recyclerView)
         recyclerViewSlot.setHasFixedSize(true)
